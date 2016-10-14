@@ -24,7 +24,7 @@ class ViewController: UIViewController {
         if let url = URL(string: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvjsvThKvSGG2k2WYFsZe8aM5NIYKU5N5weAU2AYPaE5XT74Hu") {
             let area = CGRect(x: 0, y: 40, width: 200, height: 200)
             let imageView = DownloadImageView(frame: area)
-            imageView.loadImageWithURL(url: url)
+            imageView.loadImageWithURL(url: url as NSURL)
             view.addSubview(imageView)
         }
         
