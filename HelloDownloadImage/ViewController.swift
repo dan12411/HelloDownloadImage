@@ -12,19 +12,31 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var myImageView: UIImageView!
     
-    var session: URLSession?
+    lazy var session: URLSession = {
+        return URLSession(configuration: URLSessionConfiguration.default)
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 //        downloadImage(webaddress: "http://media.npr.org/programs/day/features/2008/jul/nirvana_200b-8b1c92584c797efd0a3b7e78a64e3bf19b03024b-s300-c85.jpg")
         
+        // 用新的類別來下載
+        if let url = URL(string: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvjsvThKvSGG2k2WYFsZe8aM5NIYKU5N5weAU2AYPaE5XT74Hu") {
+            let area = CGRect(x: 0, y: 40, width: 200, height: 200)
+            let imageView = DownloadImageView(frame: area)
+            imageView.loadImageWithURL(url: url)
+            view.addSubview(imageView)
+        }
+        
+        
+        
         // 第二種方法
         // 1. 生出URLSession
-        session = URLSession(configuration: URLSessionConfiguration.default)
+//        session = URLSession(configuration: URLSessionConfiguration.default)
         // 2. 用網址產生 URL
         if let url = URL(string: "http://media.npr.org/programs/day/features/2008/jul/nirvana_200b-8b1c92584c797efd0a3b7e78a64e3bf19b03024b-s300-c85.jpg") {
             // 如果真的有url，下面就開始下載
-            let downloadImageTask = session?.dataTask(with: url, completionHandler: {
+            let downloadImageTask = session.dataTask(with: url, completionHandler: {
                 (data, response, error) in
                 // 如果有錯，不要繼續執行
                 if error != nil {
@@ -40,7 +52,7 @@ class ViewController: UIViewController {
                 }
             })
             // 真的去下載
-            downloadImageTask?.resume()
+            downloadImageTask.resume()
         }
         
         
